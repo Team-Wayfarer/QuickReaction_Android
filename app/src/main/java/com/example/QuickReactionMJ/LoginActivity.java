@@ -16,24 +16,30 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
+import com.example.QuickReactionMJ.get.GetLoginResult;
+import com.example.QuickReactionMJ.network.ApplicationController;
+import com.example.QuickReactionMJ.network.NetworkService;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+
 public class LoginActivity extends AppCompatActivity {
 
     private AlertDialog dialog;
+    private NetworkService networkService; //NetworkService 객체 생성
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        //통신
+        networkService = ApplicationController.getInstance().getNetworkService();
 
         final EditText idStr = (EditText) findViewById(R.id.id);
         final EditText passStr = (EditText) findViewById(R.id.pass);
@@ -48,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /*
         final Button loginAdmin = (Button) findViewById(R.id.loginAdmin);
         loginAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,60 +62,60 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
-        /*final Button login = (Button) findViewById(R.id.loginButton);
+        final Button login = (Button) findViewById(R.id.loginAdmin);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = idStr.getText().toString();
+                Long id = Long.parseLong(idStr.getText().toString());
                 String pass = passStr.getText().toString();
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+                /*
+                JSONObject jsonObject  = new JSONObject();
+                JsonObject gsonObject = new JsonObject();
+                JsonParser jsonParser = new JsonParser();
+
+
+                //로그인 json형식 만들기
+                try {
+                    jsonObject.put("spotAdminId",id);
+                    Log.i("TEST1", jsonObject.toString());
+                    Log.i("TEST2", "로그인 됨");
+                    Log.i("TEST2-1", networkService.toString());
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                gsonObject = (JsonObject) jsonParser.parse(jsonObject.toString());
+                Log.i("TEST3", gsonObject.toString());
+                */
+
+                Call<GetLoginResult> joinContentCall = networkService.GetAdminLoginResponse(id);
+
+
+                joinContentCall.enqueue(new Callback<GetLoginResult>() {
                     @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("Success");
-
-                            if (success) {
-                                Intent intent;
-                                if(adminStr) {
-                                    intent = new Intent(LoginActivity.this, ManagerActivity.class);
-                                }
-                                else {
-                                    intent = new Intent(LoginActivity.this, MainActivity.class);
-                                }
-                                LoginActivity.this.startActivity(intent);
-                                finish();
-                            }
-                            else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                dialog = builder.setMessage("계정을 다시 확인하세요")
-                                        .create();
-
-                                dialog.show();
-                            }
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
+                    public void onResponse(Call<GetLoginResult> call, Response<GetLoginResult> response) {
+                        if (response.isSuccessful()) {
+                            Log.i("LoginAcitivity : suc ", response.body().getBusinessNumber());
+                        } else {
+                            if (response.code() == 500);
+                            else if (response.code() == 503);
+                            else if (response.code() == 401);
+                            //요청 실패, 응답 코드 봐야 함
                         }
                     }
-                };
-                LoginRequest loginRequest = new LoginRequest(id, pass, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
-                *//*if(id.equals("test")) {
-                    Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }*//*
+
+                    @Override
+                    public void onFailure(Call<GetLoginResult> call, Throwable t) {
+                        Log.i("LoginAcitivity : fail ",  t.getMessage());
+
+                    }
+                });
             }
-        });*/
+        });
 
 
         final CheckBox loginCheck = (CheckBox) findViewById(R.id.loginCheck);
