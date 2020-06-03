@@ -16,16 +16,15 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.QuickReactionMJ.get.GetLoginResult;
+import com.example.QuickReactionMJ.get.GetAdminLoginResult;
 import com.example.QuickReactionMJ.network.ApplicationController;
 import com.example.QuickReactionMJ.network.NetworkService;
+import com.example.QuickReactionMJ.rest.Rest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -71,49 +70,23 @@ public class LoginActivity extends AppCompatActivity {
                 Long id = Long.parseLong(idStr.getText().toString());
                 String pass = passStr.getText().toString();
 
-                /*
-                JSONObject jsonObject  = new JSONObject();
-                JsonObject gsonObject = new JsonObject();
-                JsonParser jsonParser = new JsonParser();
+                //점주 전체조회
+               /*
+                Call<List<GetAdminLoginResult>> adminFindAllCall = networkService.GetAdminFindAllResponse();
+                Rest.AdminFindAllMethod(adminFindAllCall);
 
-
-                //로그인 json형식 만들기
-                try {
-                    jsonObject.put("spotAdminId",id);
-                    Log.i("TEST1", jsonObject.toString());
-                    Log.i("TEST2", "로그인 됨");
-                    Log.i("TEST2-1", networkService.toString());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                gsonObject = (JsonObject) jsonParser.parse(jsonObject.toString());
-                Log.i("TEST3", gsonObject.toString());
                 */
 
-                Call<GetLoginResult> joinContentCall = networkService.GetAdminLoginResponse(id);
+                //점주 로그인 연결
+                 Call<GetAdminLoginResult> adminLoginCall = networkService.GetAdminLoginResponse(id);
+                 Rest.AdminLoginMethod(adminLoginCall);
+
+                 Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
+                 startActivity(intent);
 
 
-                joinContentCall.enqueue(new Callback<GetLoginResult>() {
-                    @Override
-                    public void onResponse(Call<GetLoginResult> call, Response<GetLoginResult> response) {
-                        if (response.isSuccessful()) {
-                            Log.i("LoginAcitivity : suc ", response.body().getBusinessNumber());
-                        } else {
-                            if (response.code() == 500);
-                            else if (response.code() == 503);
-                            else if (response.code() == 401);
-                            //요청 실패, 응답 코드 봐야 함
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<GetLoginResult> call, Throwable t) {
-                        Log.i("LoginAcitivity : fail ",  t.getMessage());
 
-                    }
-                });
             }
         });
 

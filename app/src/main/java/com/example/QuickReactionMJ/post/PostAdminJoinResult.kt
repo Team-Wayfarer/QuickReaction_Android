@@ -1,11 +1,8 @@
-package com.example.QuickReactionMJ.get
+package com.example.QuickReactionMJ.post
 
-data class GetLoginResult(
+data class PostAdminJoinResult(
 
-        val businessNumber: String,
-        val contact : String,
-        val SpotAdminName: String,
-        val SpotName : String
+        val spotAdmin_id: String
 /*
         val status : Int,
         val message : String,

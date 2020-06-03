@@ -14,6 +14,8 @@ public class ManagerActivity extends AppCompatActivity {
         setContentView(R.layout.manager_layout);
 
         Button moveQRMaker = (Button) findViewById(R.id.makeButton);
+        Button spotSave = (Button) findViewById(R.id.makeButton4);
+
 
         moveQRMaker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -22,5 +24,16 @@ public class ManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //스팟저장
+        spotSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ManagerActivity.this, QRMaker.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }
