@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-16dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="주소"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#AAAAAA" />
+
+            <EditText
+                android:id="@+id/spotSaveCity_edittxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="도시"
+                android:inputType="textPersonName"
+                android:textColor="#AAAAAA" />
+
+            <EditText
+                android:id="@+id/spotSaveGungu_edittxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="군구"
+                android:inputType="textPersonName"
+                android:textColor="#AAAAAA" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="상세주소"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#AAAAAA" />
+
+            <EditText
+                android:id="@+id/spotSaveBuilName_edittxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="건물명"
+                android:inputType="textPassword"
+                android:textColor="#AAAAAA" />
+
+            <EditText
+                android:id="@+id/spotSaveHosu_edittxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="호수"
+                android:inputType="textPassword"
+                android:textColor="#AAAAAA" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="위도"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#AAAAAA" />
+
+            <EditText
+                android:id="@+id/spotSaveLat_edittxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#AAAAAA" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="경도"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#AAAAAA" />
+
+            <EditText
+                android:id="@+id/spotSaveLng_edittxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="text|number"
+                android:textColor="#AAAAAA" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="이름"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="#AAAAAA" />
+
+            <EditText
+                android:id="@+id/spotSaveName_edittxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="#AAAAAA" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/spotSave_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/side_design"
+            android:text="등록하기" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

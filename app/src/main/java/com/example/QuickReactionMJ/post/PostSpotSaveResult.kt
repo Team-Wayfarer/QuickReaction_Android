@@ -1,5 +1,7 @@
 package com.example.QuickReactionMJ.post
 
+import com.example.QuickReactionMJ.domain.Address
+
 data class PostSpotSaveResult(
 
         val lat: String,
@@ -7,10 +9,4 @@ data class PostSpotSaveResult(
         val name : String,
         val address : Address
 
-)
-data class Address(
-        val city: String,
-        val detail : String,
-        val gunGu: String,
-        val zipcode : String
 )

@@ -78,11 +78,13 @@ public class LoginActivity extends AppCompatActivity {
                 */
 
                 //점주 로그인 연결
-                 Call<GetAdminLoginResult> adminLoginCall = networkService.GetAdminLoginResponse(id);
-                 Rest.AdminLoginMethod(adminLoginCall);
+                    Call<GetAdminLoginResult> adminLoginCall = networkService.GetAdminLoginResponse(id);
+                    Rest.AdminLoginMethod(adminLoginCall);
 
-                 Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
-                 startActivity(intent);
+
+                Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
+                startActivity(intent);
+
 
 
 
@@ -153,4 +155,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
 }

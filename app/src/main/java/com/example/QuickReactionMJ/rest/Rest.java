@@ -3,7 +3,6 @@ package com.example.QuickReactionMJ.rest;
 import android.util.Log;
 
 import com.example.QuickReactionMJ.get.GetAdminLoginResult;
-import com.example.QuickReactionMJ.network.NetworkService;
 import com.example.QuickReactionMJ.post.PostAdminJoinResult;
 import com.example.QuickReactionMJ.post.PostSpotSaveResult;
 
@@ -14,8 +13,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Rest {
-
-    private static NetworkService networkService; //NetworkService 객체 생성
 
 
     //어드민 로그인
@@ -37,6 +34,7 @@ public class Rest {
             @Override
             public void onFailure(Call<GetAdminLoginResult> call, Throwable t) {
                 Log.i("AdminLogin : fail ",  t.getMessage());
+
             }
         });
 
@@ -100,12 +98,13 @@ public class Rest {
             public void onResponse(Call<PostSpotSaveResult> call, Response<PostSpotSaveResult> response) {
                 if (response.isSuccessful()) {
                     Log.i("SpotSave : suc 1 ", "" + response.body().getName());
-                    Log.i("SpotSave : suc 2 ", "" + response.body().getAddress().getCity());
+                    Log.i("SpotSave : suc 2 ", "" + response.body().toString());
 
                 } else {
-                    if (response.code() == 500);
-                    else if (response.code() == 503);
-                    else if (response.code() == 401);
+
+                    if (response.code() == 500)  Log.i("SpotSave : fail  ", "500");
+                    else if (response.code() == 503)  Log.i("SpotSave : fail  ", "503");
+                    else if (response.code() == 401)  Log.i("SpotSave : fail  ", "401");
                     //요청 실패, 응답 코드 봐야 함
                 }
             }

@@ -26,6 +26,7 @@
         <activity android:name=".RegisterTest"/>
         <activity android:name=".AgreeActivity"/>
         <activity android:name=".MapActivity"/>
+        <activity android:name=".RegisterSpotActivity"/>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"

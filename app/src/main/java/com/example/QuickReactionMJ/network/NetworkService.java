@@ -1,9 +1,11 @@
 package com.example.QuickReactionMJ.network;
 
 
+import com.example.QuickReactionMJ.domain.Spot;
 import com.example.QuickReactionMJ.domain.SpotAdmin;
 import com.example.QuickReactionMJ.get.GetAdminLoginResult;
 import com.example.QuickReactionMJ.post.PostAdminJoinResult;
+import com.example.QuickReactionMJ.post.PostSpotSaveResult;
 
 import java.util.List;
 
@@ -38,11 +40,21 @@ public interface NetworkService {
     );
 
     //점주 회원가입
-
     @POST("/cfcqr/api/spotAdmins/")
     @Headers({"Name:Content-Type"})
     Call<PostAdminJoinResult> PostAdminJoinResponse(
             @Body SpotAdmin spotAdmin
             );
+
+    //스팟 등록
+    @POST("/cfcqr/api/spots/{spotAdminId}")
+    @Headers({"Name:Content-Type"})
+    Call<PostSpotSaveResult> PostSpotSaveResponse(
+            @Path("spotAdminId") Long spotAdminId,
+            @Body Spot spot
+    );
+
+
+
 
 }

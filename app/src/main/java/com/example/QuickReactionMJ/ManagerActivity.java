@@ -29,7 +29,7 @@ public class ManagerActivity extends AppCompatActivity {
         spotSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ManagerActivity.this, QRMaker.class);
+                Intent intent = new Intent(ManagerActivity.this, RegisterSpotActivity.class);
                 startActivity(intent);
             }
         });
