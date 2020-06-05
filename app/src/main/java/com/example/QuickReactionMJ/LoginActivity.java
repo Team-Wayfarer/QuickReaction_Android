@@ -2,12 +2,7 @@ package com.example.QuickReactionMJ;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,79 +11,30 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.QuickReactionMJ.get.GetAdminLoginResult;
-import com.example.QuickReactionMJ.network.ApplicationController;
-import com.example.QuickReactionMJ.network.NetworkService;
-import com.example.QuickReactionMJ.rest.Rest;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import retrofit2.Call;
-
-
 public class LoginActivity extends AppCompatActivity {
 
     private AlertDialog dialog;
-    private NetworkService networkService; //NetworkService 객체 생성
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
 
-        //통신
-        networkService = ApplicationController.getInstance().getNetworkService();
-
-        final EditText idStr = (EditText) findViewById(R.id.id);
-        final EditText passStr = (EditText) findViewById(R.id.pass);
-        final boolean adminStr = false;
-
         final Button loginUser = (Button) findViewById(R.id.loginUser);
         loginUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, UserActivity.class);
                 startActivity(intent);
             }
         });
 
-        /*
         final Button loginAdmin = (Button) findViewById(R.id.loginAdmin);
         loginAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
                 startActivity(intent);
-            }
-        });*/
-
-        final Button login = (Button) findViewById(R.id.loginAdmin);
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Long id = Long.parseLong(idStr.getText().toString());
-                String pass = passStr.getText().toString();
-
-                //점주 전체조회
-               /*
-                Call<List<GetAdminLoginResult>> adminFindAllCall = networkService.GetAdminFindAllResponse();
-                Rest.AdminFindAllMethod(adminFindAllCall);
-
-                */
-
-                //점주 로그인 연결
-                    Call<GetAdminLoginResult> adminLoginCall = networkService.GetAdminLoginResponse(id);
-                    Rest.AdminLoginMethod(adminLoginCall);
-
-
-                Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
-                startActivity(intent);
-
-
-
-
-
             }
         });
 
@@ -132,28 +78,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        getHashKey();
-    }
-
-    private void getHashKey(){
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        if (packageInfo == null)
-            Log.e("KeyHash", "KeyHash:null");
-
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            } catch (NoSuchAlgorithmException e) {
-                Log.e("KeyHash", "Unable to get MessageDigest. signature=" + signature, e);
-            }
-        }
     }
 
 }

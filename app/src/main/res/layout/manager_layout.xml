@@ -4,23 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/side_design"
+    android:layout_margin="20dp"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Manager Page"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-            android:textColor="#AAAAAA"
-            android:textStyle="italic" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,7 +27,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/side_design"
                 android:text="QR코드 생성"
-                android:textColor="#AAAAAA" />
+                android:textColor="#AAAAFF" />
 
         </LinearLayout>
 
@@ -54,7 +45,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/side_design"
                 android:text="QR코드 확인"
-                android:textColor="#AAAAAA" />
+                android:textColor="#AAAAFF" />
 
         </LinearLayout>
 
@@ -72,25 +63,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/side_design"
                 android:text="경로 확인"
-                android:textColor="#AAAAAA" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/makeButton4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/side_design"
-                android:text="스팟 등록"
-                android:textColor="#AAAAAA" />
+                android:textColor="#AAAAFF" />
 
         </LinearLayout>
 

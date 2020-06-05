@@ -8,15 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterRequest extends StringRequest {
-    final static private String URL = "";
+    final static private String URL = "http://192.168.0.10:8080/cfcqr/api/spots/";
     private Map<String, String> map;
 
-    public RegisterRequest(String name, String phoneNumber, Response.Listener listener) {
+    public RegisterRequest(String contact, String name, Response.Listener listener) {
         super(Method.POST, URL, listener, null);
 
         map = new HashMap<>();
+        map.put("contact", contact);
         map.put("name", name);
-        map.put("phoneNumber", phoneNumber);
     }
 
     @Override

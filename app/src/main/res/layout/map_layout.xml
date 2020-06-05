@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_margin="20dp"
+    android:background="@drawable/side_design"
     android:layout_height="match_parent">
     <RelativeLayout
         android:id="@+id/map_view"
