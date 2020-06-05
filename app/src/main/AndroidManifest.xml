@@ -26,6 +26,7 @@
         <activity android:name=".RegisterTest"/>
         <activity android:name=".AgreeActivity"/>
         <activity android:name=".MapActivity"/>
+        <activity android:name=".RegisterSpotActivity"/>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
@@ -39,5 +40,6 @@
     <meta-data android:name="com.kakao.sdk.AppKey" android:value="55b506eec012c6de79bbd7eaf854f71f"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
 </manifest>

@@ -16,24 +16,29 @@ import android.widget.EditText;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONObject;
+import com.example.QuickReactionMJ.get.GetAdminLoginResult;
+import com.example.QuickReactionMJ.network.ApplicationController;
+import com.example.QuickReactionMJ.network.NetworkService;
+import com.example.QuickReactionMJ.rest.Rest;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import retrofit2.Call;
+
+
 public class LoginActivity extends AppCompatActivity {
 
     private AlertDialog dialog;
+    private NetworkService networkService; //NetworkService 객체 생성
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
+
+        //통신
+        networkService = ApplicationController.getInstance().getNetworkService();
 
         final EditText idStr = (EditText) findViewById(R.id.id);
         final EditText passStr = (EditText) findViewById(R.id.pass);
@@ -48,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        /*
         final Button loginAdmin = (Button) findViewById(R.id.loginAdmin);
         loginAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,60 +61,36 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
-        /*final Button login = (Button) findViewById(R.id.loginButton);
+        final Button login = (Button) findViewById(R.id.loginAdmin);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String id = idStr.getText().toString();
+                Long id = Long.parseLong(idStr.getText().toString());
                 String pass = passStr.getText().toString();
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("Success");
 
-                            if (success) {
-                                Intent intent;
-                                if(adminStr) {
-                                    intent = new Intent(LoginActivity.this, ManagerActivity.class);
-                                }
-                                else {
-                                    intent = new Intent(LoginActivity.this, MainActivity.class);
-                                }
-                                LoginActivity.this.startActivity(intent);
-                                finish();
-                            }
-                            else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                dialog = builder.setMessage("계정을 다시 확인하세요")
-                                        .create();
+                //점주 전체조회
+               /*
+                Call<List<GetAdminLoginResult>> adminFindAllCall = networkService.GetAdminFindAllResponse();
+                Rest.AdminFindAllMethod(adminFindAllCall);
 
-                                dialog.show();
-                            }
-                        }
-                        catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                };
-                LoginRequest loginRequest = new LoginRequest(id, pass, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
-                *//*if(id.equals("test")) {
-                    Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }*//*
+                */
+
+                //점주 로그인 연결
+                    Call<GetAdminLoginResult> adminLoginCall = networkService.GetAdminLoginResponse(id);
+                    Rest.AdminLoginMethod(adminLoginCall);
+
+
+                Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
+                startActivity(intent);
+
+
+
+
+
             }
-        });*/
+        });
 
 
         final CheckBox loginCheck = (CheckBox) findViewById(R.id.loginCheck);
@@ -173,4 +155,5 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
+
 }
