@@ -28,18 +28,7 @@
         <activity android:name=".RegisterTest"/>
         <activity android:name=".AgreeActivity"/>
         <activity android:name=".MapActivity"/>
-        <activity android:name=".notification.NotificationActivity"/>
-        <activity
-            android:name="com.journeyapps.barcodescanner.CaptureActivity"
-            android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation" />
 
-
-        <service android:name=".notification.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
