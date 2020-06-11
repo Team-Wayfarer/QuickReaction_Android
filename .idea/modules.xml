@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/QuickReaction_Android-develop.iml" filepath="$PROJECT_DIR$/QuickReaction_Android-develop.iml" group="QuickReaction_Android-develop" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="QuickReaction_Android-develop/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="cfc_QR/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cfc_QR.iml" filepath="$PROJECT_DIR$/.idea/cfc_QR.iml" group="cfc_QR" />
     </modules>
   </component>
 </project>

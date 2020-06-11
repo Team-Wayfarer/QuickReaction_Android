@@ -2,7 +2,6 @@ package com.example.QuickReactionMJ;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,15 +17,11 @@ import com.example.QuickReactionMJ.db.SharedPreferenceController;
 import com.example.QuickReactionMJ.domain.SpotAdminLoginDto;
 import com.example.QuickReactionMJ.domain.UserLoginDto;
 import com.example.QuickReactionMJ.network.ApplicationController;
-import com.example.QuickReactionMJ.network.MyEventListener;
+import com.example.QuickReactionMJ.listener.MyEventListener;
 import com.example.QuickReactionMJ.network.NetworkService;
 import com.example.QuickReactionMJ.post.PostAdminLoginResult;
 import com.example.QuickReactionMJ.post.PostUserLoginResult;
 import com.example.QuickReactionMJ.rest.Rest;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import retrofit2.Call;
 
@@ -35,37 +29,11 @@ public class LoginActivity extends AppCompatActivity implements MyEventListener 
 
     private AlertDialog dialog;
     private NetworkService networkService;
-    private SharedPreferences sharedPreferences;
-    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-
-        Bundle bundle = getIntent().getExtras();
-        if(bundle != null) {
-            FirebaseInstanceId.getInstance().getInstanceId()
-                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                            if (!task.isSuccessful()) {
-                                Log.w("FCM Log", "getInstanceID failed", task.getException());
-                                return;
-                            }
-                            sharedPreferences = getSharedPreferences("sFile1", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            token = task.getResult().getToken(); // 사용자가 입력한 저장할 데이터
-                            editor.putString("Token1", token); // key, value를 이용하여 저장하는 형태
-                            editor.commit();
-
-                        /*// 현재 토큰 검색!
-                        String token = task.getResult().getToken();
-                        Log.d("FCM Log", "FCM 토큰:" + token);
-                        Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();*/
-                        }
-                    });
-        }
 
         networkService = ApplicationController.getInstance().getNetworkService();
 
@@ -73,6 +41,7 @@ public class LoginActivity extends AppCompatActivity implements MyEventListener 
         //리스너
         Rest rest = new Rest();
         rest.setMyEventListener(this);
+
 
         //텍스트값
         final EditText idEdit = (EditText) findViewById(R.id.id);
@@ -83,22 +52,23 @@ public class LoginActivity extends AppCompatActivity implements MyEventListener 
 
 
         //SharedPreferenceController.INSTANCE.clearSPC(LoginActivity.this);
-        Log.i("Login : Token exist1", "" + SharedPreferenceController.INSTANCE.getAuthorization(LoginActivity.this));
+        Log.i("Login : Token exist1",""+SharedPreferenceController.INSTANCE.getAuthorization(LoginActivity.this));
 
-        if (!SharedPreferenceController.INSTANCE.getAuthorization(LoginActivity.this).isEmpty()) {
+        if(!SharedPreferenceController.INSTANCE.getAuthorization(LoginActivity.this).isEmpty()){
             //점주 토큰
-            if (SharedPreferenceController.INSTANCE.getAuthorizationOfRole(LoginActivity.this).equals("ADMIN")) {
+            if(SharedPreferenceController.INSTANCE.getAuthorizationOfRole(LoginActivity.this).equals("ADMIN")) {
                 Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
                 startActivity(intent);
             }
             //유저 토큰
-            if (SharedPreferenceController.INSTANCE.getAuthorizationOfRole(LoginActivity.this).equals("USER")) {
+            if(SharedPreferenceController.INSTANCE.getAuthorizationOfRole(LoginActivity.this).equals("USER")) {
                 Intent intent = new Intent(LoginActivity.this, UserActivity.class);
                 startActivity(intent);
             }
 
-            Log.i("Login : Token exist2", "" + SharedPreferenceController.INSTANCE.getAuthorization(LoginActivity.this));
+            Log.i("Login : Token exist2",""+SharedPreferenceController.INSTANCE.getAuthorization(LoginActivity.this));
         }
+
 
 
         //유저 로그인 버튼
@@ -107,11 +77,11 @@ public class LoginActivity extends AppCompatActivity implements MyEventListener 
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(), "로그인 클릭", Toast.LENGTH_SHORT).show();
 
-                String email = idEdit.getText().toString();
+
+                String email =idEdit.getText().toString();
                 String password = passEdit.getText().toString();
 
-                UserLoginDto dto = new UserLoginDto(email, password, token);
-                Log.i("저장된 duid", token);
+                UserLoginDto dto = new UserLoginDto(email, password);
 
                 Call<PostUserLoginResult> userLoginCall = networkService.PostUserLoginResponse(dto);
                 Rest.UserLoginMethod(userLoginCall);
@@ -126,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements MyEventListener 
                 String email = idEdit.getText().toString();
                 String password = passEdit.getText().toString();
 
-                SpotAdminLoginDto dto = new SpotAdminLoginDto(email, password);
+                SpotAdminLoginDto dto = new SpotAdminLoginDto(email,password);
 
                 Call<PostAdminLoginResult> call = networkService.PostAdminLoginResponse(dto);
                 Rest.AdminLoginMethod(call);
@@ -166,15 +136,8 @@ public class LoginActivity extends AppCompatActivity implements MyEventListener 
             }
         });
 
-        final Button map = (Button) findViewById(R.id.mapButton);
-        map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, MapActivity.class);
-                startActivity(intent);
-            }
-        });
     }
+
 
 
     @Override
@@ -201,6 +164,8 @@ public class LoginActivity extends AppCompatActivity implements MyEventListener 
             Toast.makeText(this, "로그인 실패" , Toast.LENGTH_LONG).show();
         }
 
+
+
     }
 
     @Override
@@ -209,5 +174,4 @@ public class LoginActivity extends AppCompatActivity implements MyEventListener 
         Log.i("onTokenReceiveEvent val", ":" + SharedPreferenceController.INSTANCE.getAuthorization(LoginActivity.this));
         Log.i("onTokenReceiveEvent", ":" + token);
     }
-
 }

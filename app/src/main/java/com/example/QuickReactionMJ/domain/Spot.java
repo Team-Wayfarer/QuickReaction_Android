@@ -18,6 +18,22 @@ public class Spot {
         this.name = name;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return "Spot{" +

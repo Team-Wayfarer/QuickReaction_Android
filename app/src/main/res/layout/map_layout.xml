@@ -5,23 +5,9 @@
     android:layout_margin="20dp"
     android:background="@drawable/side_design"
     android:layout_height="match_parent">
-
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:entries="@array/날짜"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <net.daum.mf.map.api.MapView
-            android:id="@+id/map_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
-
+        android:layout_height="match_parent" />
     ...
 </RelativeLayout>
