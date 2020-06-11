@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "897450744530",
+    "firebase_url": "https://qrproject-bd12c.firebaseio.com",
+    "project_id": "qrproject-bd12c",
+    "storage_bucket": "qrproject-bd12c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897450744530:android:98dcf33a1f269bb363ab0b",
+        "android_client_info": {
+          "package_name": "com.example.QuickReactionMJ"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897450744530-jektcdjjhidbo02h26k9kkft97tjutap.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv426wFczlclQxr-fdu4HWBMIH65lcDwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897450744530-jektcdjjhidbo02h26k9kkft97tjutap.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
