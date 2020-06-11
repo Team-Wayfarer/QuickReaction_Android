@@ -2,9 +2,10 @@ package com.example.QuickReactionMJ.rest;
 
 import android.util.Log;
 
-import com.example.QuickReactionMJ.domain.UserLoginDto;
 import com.example.QuickReactionMJ.get.GetAdminLoginResult;
-import com.example.QuickReactionMJ.network.MyEventListener;
+import com.example.QuickReactionMJ.get.GetVisitInfoResult;
+import com.example.QuickReactionMJ.listener.GetVisitInfoEventListener;
+import com.example.QuickReactionMJ.listener.MyEventListener;
 import com.example.QuickReactionMJ.post.PostAdminJoinResult;
 import com.example.QuickReactionMJ.post.PostAdminLoginResult;
 import com.example.QuickReactionMJ.post.PostScanQrResult;
@@ -12,6 +13,7 @@ import com.example.QuickReactionMJ.post.PostSpotSaveResult;
 import com.example.QuickReactionMJ.post.PostUserJoinResult;
 import com.example.QuickReactionMJ.post.PostUserLoginResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -22,8 +24,12 @@ public class Rest {
 
     /** 이벤트를 전달 받을 인터페이스 */
     private static MyEventListener mListener;
+    private static GetVisitInfoEventListener vListener;
+
 
     public void setMyEventListener(MyEventListener listener) { mListener = listener; }
+    public void setGetVisitInfoEventListener(GetVisitInfoEventListener listener) { vListener = listener; }
+
 
 
     //어드민 상세조회
@@ -133,7 +139,7 @@ public class Rest {
 
 
     //유저 로그인
-    public static void UserLoginMethod(final Call<PostUserLoginResult> callParam){
+    public static void UserLoginMethod(Call<PostUserLoginResult> callParam){
 
         callParam.enqueue(new Callback<PostUserLoginResult> () {
 
@@ -254,6 +260,38 @@ public class Rest {
             public void onFailure(Call<PostScanQrResult> call, Throwable t) {
                 Log.i(error_str + " : fail ",  t.getMessage());
                 mListener.onMyEvent(false);
+
+            }
+        });
+    }
+
+    //방문정보 가져오기
+    public static void UserGetVisitInfoMethod(Call<List<GetVisitInfoResult>> callParam){
+
+        callParam.enqueue(new Callback<List<GetVisitInfoResult>> () {
+
+            String error_str = "UserVisitInfo";
+            List<GetVisitInfoResult> dummy = new ArrayList<>();
+
+            @Override
+            public void onResponse(Call<List<GetVisitInfoResult>> call, Response<List<GetVisitInfoResult>> response) {
+                if (response.isSuccessful()) {
+                    Log.i(error_str + " : suc 1 ", "" + response.body().get(0).getSpot().toString());
+                    vListener.onVisitInfoReceiveEvent(response.body());
+                } else {
+
+                    if (response.code() == 500)  Log.i(error_str + " : fail  ", "500");
+                    else if (response.code() == 503)  Log.i(error_str + " : fail  ", "503");
+                    else if (response.code() == 401)  Log.i(error_str + " : fail  ", "401");
+                    //요청 실패, 응답 코드 봐야 함
+                    vListener.onSucOrFailEvent(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GetVisitInfoResult>> call, Throwable t) {
+                Log.i(error_str + " : fail ",  t.getMessage());
+                vListener.onSucOrFailEvent(false);
 
             }
         });

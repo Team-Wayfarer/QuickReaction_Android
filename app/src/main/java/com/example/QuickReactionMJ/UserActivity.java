@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -15,9 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.QuickReactionMJ.db.SharedPreferenceController;
+import com.example.QuickReactionMJ.get.GetVisitInfoResult;
+import com.example.QuickReactionMJ.listener.GetVisitInfoEventListener;
 import com.example.QuickReactionMJ.network.ApplicationController;
 import com.example.QuickReactionMJ.network.NetworkService;
 import com.example.QuickReactionMJ.post.PostScanQrResult;
@@ -34,14 +38,16 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 
 import static android.content.ContentValues.TAG;
 
-public class UserActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity implements GetVisitInfoEventListener {
     TextView spot;
     TextView time;
+
     IntentIntegrator integrator;
     ArrayList<VisitData> visitDataList;
     VisitDataAdapter visitDataAdapter;
@@ -55,6 +61,8 @@ public class UserActivity extends AppCompatActivity {
     private long startTime = 0;
 
     private NetworkService networkService;
+    List<GetVisitInfoResult> visitDataList_Real;
+
 
 
     @Override
@@ -67,10 +75,15 @@ public class UserActivity extends AppCompatActivity {
         this.InitializeVisitData();
         this.InitializeDiseaseData();
 
+        //리스너
+        Rest rest = new Rest();
+        rest.setGetVisitInfoEventListener(this);
+
         spot = (TextView) findViewById(R.id.QRresult);
         time = (TextView) findViewById(R.id.timeText);
 
         listView = (ListView) findViewById(R.id.visitInfo);
+
 
         //user 방문 리스트
         visitDataList = getStringArrayPref(getApplicationContext(), SETTINGS_PLAYER_JSON);
@@ -251,9 +264,12 @@ public class UserActivity extends AppCompatActivity {
     }
 
     protected void checkDisease() {
-        for(int i = 0; i < visitDataList.size(); i++) {
-            checkVisitAndTime(visitDataList.get(i).getVisit(), visitDataList.get(i).getTime(), i);
-        }
+
+        //서버통신
+        Long userId = Long.parseLong(SharedPreferenceController.INSTANCE.getAuthorizationOfId(UserActivity.this));
+        Call<List<GetVisitInfoResult>> call = networkService.GetVisitInfoResult(userId);
+        Rest.UserGetVisitInfoMethod(call);
+
     }
 
     protected void checkVisitAndTime(String visit, String time, int index) {
@@ -278,5 +294,52 @@ public class UserActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    protected void checkVisit(String visit, String time, int index) {
+
+        for(int i = 0; i < diseaseList.size(); i++) {
+            if(diseaseList.get(i).getVisit().equals(visit)) {
+                View view = listView.getChildAt(index);
+                try {
+                        TextView visitText = view.findViewById(R.id.QRresult);
+                        TextView timeText = view.findViewById(R.id.timeText);
+                }
+                catch (Exception e) {
+                    e.getMessage();
+                }
+            }
+        }
+    }
+
+
+
+
+
+    @Override
+    public void onSucOrFailEvent(boolean b) {
+        //실패
+        if(!b){
+
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onVisitInfoReceiveEvent(List<GetVisitInfoResult> list) {
+
+        //성공
+        Log.i("UserActivity : ", list.toString());
+        InitializeVisitData();
+        for(int i =0; i<list.size(); i++) {
+            visitDataList.add(new VisitData(list.get(i).getSpot().getName()
+                    ,"" + list.get(i).getLocalDateTime()));
+        }
+
+
+        visitDataAdapter = new VisitDataAdapter(this, visitDataList);
+        listView.setAdapter(visitDataAdapter);
+
+        integrator = new IntentIntegrator(this);
     }
 }

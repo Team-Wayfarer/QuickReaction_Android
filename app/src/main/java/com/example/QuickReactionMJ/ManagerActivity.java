@@ -22,5 +22,8 @@ public class ManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
     }
 }

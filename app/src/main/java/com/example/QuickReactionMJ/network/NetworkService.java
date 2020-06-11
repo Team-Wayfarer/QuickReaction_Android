@@ -7,6 +7,7 @@ import com.example.QuickReactionMJ.domain.SpotAdminLoginDto;
 import com.example.QuickReactionMJ.domain.User;
 import com.example.QuickReactionMJ.domain.UserLoginDto;
 import com.example.QuickReactionMJ.get.GetAdminLoginResult;
+import com.example.QuickReactionMJ.get.GetVisitInfoResult;
 import com.example.QuickReactionMJ.post.PostAdminJoinResult;
 import com.example.QuickReactionMJ.post.PostAdminLoginResult;
 import com.example.QuickReactionMJ.post.PostScanQrResult;
@@ -86,11 +87,19 @@ public interface NetworkService {
 
 
     //QR 스캔
-    @POST("/cfcqr/api/users/{userId}/{spotId}")
+    @POST("/cfcqr/api/visitInfos/{userId}/{spotId}")
     @Headers({"Name:Content-Type"})
     Call<PostScanQrResult> PostQrScanResult(
             @Path("userId") Long userid,
             @Path("spotId") Long spotid
     );
+
+    //방문 정보 가져오기
+    @GET("/cfcqr/api/visitInfos/{userId}")
+    @Headers({"Name:Content-Type"})
+    Call<List<GetVisitInfoResult>> GetVisitInfoResult(
+            @Path("userId") Long userid
+    );
+
 
 }

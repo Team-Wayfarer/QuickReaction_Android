@@ -37,7 +37,7 @@ public class ApplicationController extends Application {
             if(networkService == null){
                 Log.i("App","전");
                 //기본게이트웨이
-                baseUrl = "http://192.168.0.32:8080/"; //원하는 URL 작성
+                baseUrl = "http://192.168.219.104:8080/"; //원하는 URL 작성
                 Gson gson = new GsonBuilder()
                         .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                         .create();

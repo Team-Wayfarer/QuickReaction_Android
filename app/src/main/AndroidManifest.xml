@@ -28,31 +28,27 @@
         <activity android:name=".RegisterTest"/>
         <activity android:name=".AgreeActivity"/>
         <activity android:name=".MapActivity"/>
-        <activity android:name=".UserActivity2"/>
+        <activity android:name=".notification.NotificationActivity"/>
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
             tools:replace="screenOrientation" />
-        <service android:name=".MyFirebaseMessagingService">
+
+
+        <service android:name=".notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="OpenSub" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION">
+    </uses-permission>
 
-        <meta-data android:name="com.kakao.sdk.AppKey" android:value=""/>
+
+    <meta-data android:name="com.kakao.sdk.AppKey" android:value="55b506eec012c6de79bbd7eaf854f71f"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
